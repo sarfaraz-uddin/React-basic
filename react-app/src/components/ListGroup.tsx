@@ -4,8 +4,13 @@ import { useState } from "react";
 
 // import { MouseEvent } from "react";
 
-function ListGroup() {
-  let items = ["Bagbazar", "Mhepi", "Boudha", "Samakhusi", "Bhaktapur"];
+interface Props {
+  items: string[];
+  heading: string;
+  //(item:string)=>void
+  onSelectItem: (item: string) => void;
+}
+function ListGroup({ items, heading, onSelectItem }: Props) {
   //hook
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const getMessage = () => {
@@ -15,7 +20,7 @@ function ListGroup() {
   // const handleEvent = (event: MouseEvent) => console.log(event);
   return (
     <>
-      <h1>Lists</h1>
+      <h1>{heading}</h1>
       {getMessage()}
       <ul className="list-group">
         {items.map((item, index) => (
@@ -26,7 +31,10 @@ function ListGroup() {
                 : "list-group-item"
             }
             key={item}
-            onClick={() => setSelectedIndex(index)}
+            onClick={() => {
+              setSelectedIndex(index);
+              onSelectItem(item);
+            }}
           >
             {item}
           </li>
